@@ -1,6 +1,13 @@
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
+
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -11,7 +18,7 @@ public class ProductInfo implements Serializable{
 
     private static final long serialVersionUID = 8179244535272774089L;
 
-    
+
 
     public List<String> Comments;
 
@@ -95,6 +102,36 @@ public class ProductInfo implements Serializable{
     }
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public void setComments(int commentsType, int sortType) throws IOException {
+        for (int i = 0; i < 10; i++) {
+            String url = CommentConstants.JDURL
+                    + productid
+                    + CommentConstants.JDPRODUCT_S
+                    + commentsType
+                    + CommentConstants.JDPRODUCT_T
+                    + sortType
+                    + CommentConstants.JDPRODUCT_P
+                    + i
+                    + CommentConstants.JDURLLAST;
+            Document document = Jsoup.connect(url).get();
+
+            Pattern p = Pattern.compile("\\{(.*?)\\}");
+
+            Pattern re_content = Pattern.compile("\"content\":\"(.*?)\"");
+
+            Matcher m = p.matcher(document.body().text());
+
+            while (m.find()){
+                String str = m.group(1);
+                Matcher matcher = re_content.matcher(str);
+
+                while (matcher.find()){
+                    System.out.println(matcher.group(1));
+                }
+            }
+        }
     }
 
 }
