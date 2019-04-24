@@ -31,6 +31,9 @@ public class JDProductList implements ProductList{
         List<ProductInfo> jdProductList = new ArrayList<>();
         ProductInfo productInfo;
         String url = "";
+        /*
+        * 默认爬取十页搜索结果
+        * */
         for(int i = 0; i < 10; i++){
             try {
                 System.out.println("JD Product 第[" + (i + 1) + "]页");
@@ -45,12 +48,19 @@ public class JDProductList implements ProductList{
                 for (Element ul : uls) {
                     Elements lis = ul.select("li[data-sku]");
                     for (Element li : lis) {
-                        Element div = li.select("div[class=gl-i-wrap]").first();
+                        Element div = li
+                                .select("div[class=gl-i-wrap]")
+                                .first();
+
                         Elements title = div.select("div[class=p-name p-name-type-2]>a");
+
                         String productName = title.attr("title"); //得到商品名称
+
                         Elements price = div.select("div[class=p-price]");
                         String productPrice = price.text(); //得到商品价格
-                        String productID = li.attr("data-pid");
+
+                        String productID = li.attr("data-pid"); //得到商品ID
+
                         productInfo = new ProductInfo();
                         productInfo.setProductName(productName);
                         productInfo.setProductPrice(productPrice);

@@ -63,7 +63,10 @@ public class ProductInfo implements Serializable{
 
 
     public void setComments(int commentsType, int sortType) throws IOException {
-
+        /*
+        * 默认爬取十页评论
+        *
+        * */
         for (int i = 0; i < 10; i++) {
             String url = CommentConstants.JDURL
                     + productid
