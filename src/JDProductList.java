@@ -50,16 +50,18 @@ public class JDProductList implements ProductList{
                         String productName = title.attr("title"); //得到商品名称
                         Elements price = div.select("div[class=p-price]");
                         String productPrice = price.text(); //得到商品价格
-                        String productID = li.attr("data-pid)");
+                        String productID = li.attr("data-pid");
                         productInfo = new ProductInfo();
                         productInfo.setProductName(productName);
                         productInfo.setProductPrice(productPrice);
+                        productInfo.setProductid(productID);
+                        productInfo.setComments(0,0);
                         jdProductList.add(productInfo);
                     }
                 }
             } catch(Exception e) {
                 System.out.println("Get JD product has error [" + url + "]");
-                System.out.println(e.getMessage());
+                System.out.println(e.fillInStackTrace().toString());
             }
         }
         return jdProductList;
@@ -67,9 +69,15 @@ public class JDProductList implements ProductList{
 
     public static void main(String[] args) {
         try {
+            /*
+            要检索的商品名,utf-8格式
+            * */
             String productName = "书包";
+
             String jdUrl = Constants.JDURL + productName  + Constants.JDENC;
+
             List<ProductInfo> list = new JDProductList(jdUrl, productName).getProductList();
+
             System.out.println(list.size());
             for(ProductInfo pi : list){
                 System.out.println(pi.getProductName() + "  " + pi.getProductPrice());

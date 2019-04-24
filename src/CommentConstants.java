@@ -5,7 +5,7 @@ public class CommentConstants {
 
     public final static String JDPRODUCT_T = "-t-";
 
-    public final static String JDPRODUCT_P = "-P-";
+    public final static String JDPRODUCT_P = "-p-";
 
     public final static String JDURLLAST = ".html";
 
