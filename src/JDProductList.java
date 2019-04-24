@@ -20,7 +20,6 @@ public class JDProductList implements ProductList{
 
     private String productName;
 
-    private static PriceCheckUtil pcu = PriceCheckUtil.getInstance();
 
     public JDProductList(String jdUrl, String productName){
         this.jdUrl = jdUrl;
@@ -32,13 +31,13 @@ public class JDProductList implements ProductList{
         List<ProductInfo> jdProductList = new ArrayList<>();
         ProductInfo productInfo;
         String url = "";
-        for(int i = 0; i < 1; i++){
+        for(int i = 0; i < 10; i++){
             try {
                 System.out.println("JD Product 第[" + (i + 1) + "]页");
                 if(i == 0) {
                     url = jdUrl;
                 }else{
-                    url = Constants.JDURL + pcu.getGbk(productName) + Constants.JDENC + Constants.JDPAGE + (i + 1);
+                    url = Constants.JDURL + productName + Constants.JDENC + Constants.JDPAGE + (i + 1);
                 }
                 System.out.println(url);
                 Document document = Jsoup.connect(url).timeout(5000).get();
@@ -51,11 +50,10 @@ public class JDProductList implements ProductList{
                         String productName = title.attr("title"); //得到商品名称
                         Elements price = div.select("div[class=p-price]");
                         String productPrice = price.text(); //得到商品价格
-                        String productID = li.attr("data-pid");
+                        String productID = li.attr("data-pid)");
                         productInfo = new ProductInfo();
                         productInfo.setProductName(productName);
                         productInfo.setProductPrice(productPrice);
-                        productInfo.setProductid(productID);
                         jdProductList.add(productInfo);
                     }
                 }
@@ -70,11 +68,11 @@ public class JDProductList implements ProductList{
     public static void main(String[] args) {
         try {
             String productName = "书包";
-            String jdUrl = Constants.JDURL + pcu.getGbk(productName)  + Constants.JDENC;
+            String jdUrl = Constants.JDURL + productName  + Constants.JDENC;
             List<ProductInfo> list = new JDProductList(jdUrl, productName).getProductList();
             System.out.println(list.size());
             for(ProductInfo pi : list){
-                System.out.println(pi.getProductName() + "  " + pi.getProductPrice()+" "+pi.getProductid());
+                System.out.println(pi.getProductName() + "  " + pi.getProductPrice());
             }
         } catch (Exception e) {
             e.printStackTrace();

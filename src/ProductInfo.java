@@ -11,6 +11,7 @@ public class ProductInfo implements Serializable{
 
     private static final long serialVersionUID = 8179244535272774089L;
 
+    
 
     public List<String> Comments;
 
